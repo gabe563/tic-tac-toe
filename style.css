@@ -228,10 +228,11 @@ button:active, .git img:active {
     width: 130px;
 }
 
-.cell .x::before,
-.cell .x::after {
-    content: 'x';
+.current {
+    filter: drop-shadow(1px 3px 8px var(--nd-color));
 }
+
+
 
 @keyframes fade-out {
     from { opacity: 100%; }

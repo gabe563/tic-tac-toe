@@ -1,7 +1,3 @@
-
-const gameBoard = 
-    ['','','']
-
 const Players = (name) => {
     const player1Name = document.querySelector('.player1Name');
     const player2Name = document.querySelector('.player2Name');
@@ -49,8 +45,8 @@ const changeBetweenPages = (() => {
             optionsCont.style.animation = "fade-out 0.5s forwards";
             mainBoard.style.animation = "";
             optionsCont.addEventListener('animationend', () => {
-                    optionsCont.classList.add('hidden');
-                    mainBoard.classList.remove('hidden');
+                optionsCont.classList.add('hidden');
+                mainBoard.classList.remove('hidden');
             })
         } 
         if (optionsCont.classList.contains('hidden')) {
@@ -68,6 +64,18 @@ const changeBetweenPages = (() => {
         const player2 = Players(player2Input.value);
         player1.setNames(player2);
     }
+})();
+
+const gameBoard = (() => {
+    const board = ['O', 'O', 'X', 'O', '', '', '', '', ''];
+    const cells = document.querySelectorAll('[data-cell]')
+    board.forEach((item, index) => {
+        cells.forEach((cell, i) => {
+            if(index === i) {
+                cell.textContent = item
+            }
+        })
+    }) 
 })();
 
 
