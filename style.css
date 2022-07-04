@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Handlee&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --st-color: #27272a;
+    --nd-color: #e4e4e7;
+    --rd-color: #18181b;
+
+    --st-font: 'Handlee', cursive;
+    --nd-font: 'Fredoka One', cursive;
+}
+
+body {
+    font-family: var(--st-font);
+    color: var(--nd-color);
+    background-color: var(--st-color);
+}
+
+.hidden {
+    animation: 0.5s ease 0s 1 normal forwards running fade-out;
+    display: none;
+}
+
+.options-header {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.options-header h1 {
+    word-spacing: 20px;
+    font-size: 2.8rem;
+}
+
+.git {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.git img {
+    height: auto;
+    width: 54px;
+    filter: invert(80%);
+    transition: all 0.2s ease;
+}
+
+.players-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 68px;
+    height: 500px;
+}
+
+.players-cont p {
+    font-family: var(--nd-font);
+    font-size: 8.5rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.players-cont .player {
+    display: flex;
+    flex-direction: column;
+}
+
+.player input {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    align-self: center;
+    width: 90px;
+    height: 30px;
+}
+
+input::placeholder {
+    text-align: center;
+}
+
+.board-header {
+    margin: 20px;
+}
+
+button {
+    width: 90px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--st-font);
+    background-color: var(--rd-color);
+    padding: 12px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover, .git img:hover {
+    transform: scale(1.1, 1.1);
+}
+
+button:active, .git img:active {
+    transform: scale(1 , 1);
+}
+
+.goBack-btn button{
+    width: 100px;
+    padding: 10px;
+}
+
+.playersScore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    gap: 140px;
+}
+
+.playersScore .player {
+    display: flex;
+    gap: 40px;
+}
+
+.playersScore .player p {
+    max-width: 180px;
+    word-wrap: break-word;
+    font-size: 1.8rem;
+}
+
+.player1Name, .player2Name {
+    min-width: 180px;
+    font-size: 3rem !important;
+}
+
+.player1Name {
+    text-align: right;
+}
+
+.empty {
+    font-family: var(--nd-font);
+    font-size: 4rem !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.score {
+    align-self: center;
+}
+
+.game-cont {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--nd-font);
+    font-size: 6.2rem;
+    background-color: var(--st-color);
+    border: 8px solid var(--nd-color);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.cell:nth-child(1), .cell:nth-child(3), .cell:nth-child(7), .cell:nth-child(9){
+    border: none;
+}
+
+.cell:nth-child(2) {
+    border-top: none;
+    border-bottom: none;
+}
+
+.cell:nth-child(4) {
+    border-left: none;
+    border-right: none;
+}
+
+.cell:nth-child(6) {
+    border-right: none;
+    border-left: none;
+}
+
+.cell:nth-child(8) {
+    border-bottom: none;
+    border-top: none;
+}
+
+.restart-btn {
+    position: absolute;
+    align-self: center;
+    margin-left: 700px;
+}
+
+.restart-btn button {
+    width: 130px;
+}
+
+.cell .x::before,
+.cell .x::after {
+    content: 'x';
+}
+
+@keyframes fade-out {
+    from { opacity: 100%; }
+    to { opacity: 0% }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0%; }
+    to { opacity: 100%; }
+}

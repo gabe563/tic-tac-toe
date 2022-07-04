@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="app.js" defer></script>
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <div class="options-cont">
+        <div class="options-header">
+            <h1>Tic Tac Toe</h1>
+            <div class="git">
+                <a href="https://github.com/FOXYSAMU" target="_blank">
+                    <img src="assets/github.png" alt="github" draggable="false">
+                </a>
+            </div>
+        </div>
+        <div class="players-cont">
+            <div class="player 1">
+                <input type="text" name="" id="" placeholder="Player 1" maxlength="18">
+                <p>X</p>
+            </div>
+            <div class="start-btn">
+                <button id="startBtn">Start</button>
+            </div>
+            <div class="player 2">
+                <input type="text" name="" id="" placeholder="Player 2" maxlength="18">
+                <p>O</p>
+            </div>
+        </div>
+    </div>
+    <div class="main-board hidden">
+        <div class="board-header">
+            <div class="goBack-btn">
+                <button id="gobackBtn">Go back</button>
+            </div>
+            <div class="git">
+                <a href="https://github.com/FOXYSAMU" target="_blank">
+                    <img src="assets/github.png" alt="github" draggable="false">
+                </a>
+            </div>
+        </div>
+        <div class="board-cont">
+            <div class="playersScore">
+                <div class="player 1">
+                    <p class="player1Name">PlaceHolder1</p>
+                    <div id="player1Score" class="score">
+                        <p>0</p>
+                    </div>
+                </div>
+                <div class="player 2">
+                    <div id="player2Score" class="score">
+                        <p>0</p>
+                    </div>
+                    <p class="player2Name">PlaceHolder2</p>
+                </div>
+            </div>
+            <div class="game-cont">
+                <div class="game-board">
+                    <div class="cell 1">X</div>
+                    <div class="cell 2"></div>
+                    <div class="cell 3"></div>
+                    <div class="cell 4"></div>
+                    <div class="cell 5"></div>
+                    <div class="cell 6"></div>
+                    <div class="cell 7"></div>
+                    <div class="cell 8"></div>
+                    <div class="cell 9"></div>
+                </div>
+                <div class="restart-btn">
+                    <button id="restartBtn">Restart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
