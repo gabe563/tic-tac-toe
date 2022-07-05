@@ -22,8 +22,11 @@ body {
 }
 
 .hidden {
-    animation: 0.5s ease 0s 1 normal forwards running fade-out;
     display: none;
+}
+
+.fade {
+    animation: fade-out 0.5s forwards;
 }
 
 .options-header {
@@ -182,7 +185,7 @@ button:active, .git img:active {
     justify-content: center;
     align-items: center;
     font-family: var(--nd-font);
-    font-size: 6.2rem;
+    font-size: 6rem;
     background-color: var(--st-color);
     border: 8px solid var(--nd-color);
     -webkit-touch-callout: none;
@@ -191,7 +194,7 @@ button:active, .git img:active {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    pointer-events: none;
+    cursor: default;
 }
 
 .cell:nth-child(1), .cell:nth-child(3), .cell:nth-child(7), .cell:nth-child(9){
@@ -229,10 +232,20 @@ button:active, .git img:active {
 }
 
 .current {
-    filter: drop-shadow(1px 3px 8px var(--nd-color));
+   filter: drop-shadow(1px 3px 8px var(--nd-color))
 }
 
+#restartBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
 
+img[src*='restart'] {
+    height: auto;
+    width: 24px;
+}
 
 @keyframes fade-out {
     from { opacity: 100%; }

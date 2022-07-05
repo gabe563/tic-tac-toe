@@ -24,6 +24,68 @@ const Players = (name) => {
     return {setNames, getName}
 }
 
+const gameBoard = (() => {
+    const board = ['', '', '', '', '', '', '', '', ''];
+    const cells = document.querySelectorAll('[data-cell]');
+    board.forEach((item, index) => {
+        cells.forEach((cell, i) => {
+            if(index === i) {
+                cell.textContent = item
+            }
+        });
+    }); 
+})();
+    
+const addMarks = (() => {
+    const X_Mark = 'X';
+    const O_Mark = 'O';
+    let circTurn;
+    const cells = document.querySelectorAll('[data-cell]');
+    const restartBtn = document.getElementById('restartBtn');
+
+    playBefore();
+
+    function playBefore() {
+        circTurn = false;
+        cells.forEach((cell, i) => {
+            cell.textContent = '';
+            cell.addEventListener('click', cellClick, { once: true});
+        }) 
+        currentTurn();
+    }
+
+    function cellClick(e) {
+        const currCell = e.target;
+        const currPlay = circTurn ? O_Mark : X_Mark;
+        placeMarks(currCell, currPlay);
+        swapTurn();
+        currentTurn();
+    }
+
+    function placeMarks (cell, play) {
+        cell.textContent = play;
+    }
+
+    function swapTurn() {
+        circTurn = !circTurn;
+    }
+    
+    function currentTurn() {
+        const player1Name = document.querySelector('.player1Name');
+        const player2Name = document.querySelector('.player2Name');
+       
+        if(circTurn) {
+            player2Name.classList.add('current');
+            player1Name.classList.remove('current');
+        } else {
+            player1Name.classList.add('current');
+            player2Name.classList.remove('current');
+        }
+    }
+    return { playBefore }
+})();
+
+
 const changeBetweenPages = (() => {
     const optionsCont = document.querySelector('.options-cont');
     const mainBoard = document.querySelector('.main-board');
@@ -34,27 +96,33 @@ const changeBetweenPages = (() => {
     const startBtn = document.getElementById('startBtn');
     const gobackBtn = document.getElementById('gobackBtn');
 
-    startBtn.addEventListener('click', changePage);
-    gobackBtn.addEventListener('click', changePage);
+    startBtn.addEventListener('click', changePageForward);
+    gobackBtn.addEventListener('click', changePageBackwards);
 
-    function changePage() {
-        if (mainBoard.classList.contains('hidden')) {
+    function changePageForward() {
+        if (!optionsCont.classList.contains('hidden')) {
             getPlayerInput()
             player1Input.value = '';
             player2Input.value = '';
-            optionsCont.style.animation = "fade-out 0.5s forwards";
-            mainBoard.style.animation = "";
+            optionsCont.classList.add('fade')
             optionsCont.addEventListener('animationend', () => {
                 optionsCont.classList.add('hidden');
                 mainBoard.classList.remove('hidden');
+                optionsCont.classList.remove('fade')
             })
-        } 
-        if (optionsCont.classList.contains('hidden')) {
-            mainBoard.style.animation = "fade-out 0.4s forwards";
-            optionsCont.style.animation = "";
+        }
+    }
+
+    const {playBefore} = addMarks;
+
+    function changePageBackwards() {
+        if (!mainBoard.classList.contains('hidden')) {
+            mainBoard.classList.add('fade')
             mainBoard.addEventListener('animationend', () => {
                 optionsCont.classList.remove('hidden');
                 mainBoard.classList.add('hidden');
+                mainBoard.classList.remove('fade');
+                playBefore()
             })
         }
     }
@@ -65,21 +133,6 @@ const changeBetweenPages = (() => {
         player1.setNames(player2);
     }
 })();
-
-const gameBoard = (() => {
-    const board = ['O', 'O', 'X', 'O', '', '', '', '', ''];
-    const cells = document.querySelectorAll('[data-cell]')
-    board.forEach((item, index) => {
-        cells.forEach((cell, i) => {
-            if(index === i) {
-                cell.textContent = item
-            }
-        })
-    }) 
-})();
-
-
-
 
 
 
