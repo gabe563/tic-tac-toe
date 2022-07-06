@@ -23,20 +23,9 @@ const Players = (name) => {
     }
     return {setNames, getName}
 }
-
+    
 const gameBoard = (() => {
     const board = ['', '', '', '', '', '', '', '', ''];
-    const cells = document.querySelectorAll('[data-cell]');
-    board.forEach((item, index) => {
-        cells.forEach((cell, i) => {
-            if(index === i) {
-                cell.textContent = item
-            }
-        });
-    }); 
-})();
-    
-const addMarks = (() => {
     const X_Mark = 'X';
     const O_Mark = 'O';
     let circTurn;
@@ -49,20 +38,22 @@ const addMarks = (() => {
         circTurn = false;
         cells.forEach((cell, i) => {
             cell.textContent = '';
-            cell.addEventListener('click', cellClick, { once: true});
+            cell.addEventListener('click', (e) => {
+                const cellIndex = i;
+                console.log(cellIndex)
+                const currCell = e.target;
+                const currPlay = circTurn ? O_Mark : X_Mark;
+                placeMarks(currCell, currPlay, cellIndex);
+                swapTurn();
+                currentTurn();
+            }, { once: true});
         }) 
         currentTurn();
     }
 
-    function cellClick(e) {
-        const currCell = e.target;
-        const currPlay = circTurn ? O_Mark : X_Mark;
-        placeMarks(currCell, currPlay);
-        swapTurn();
-        currentTurn();
-    }
-
-    function placeMarks (cell, play) {
+    function placeMarks(cell, play, index) {
+        board[index] = play;
+        console.log(board)
         cell.textContent = play;
     }
 
@@ -83,6 +74,19 @@ const addMarks = (() => {
         }
     }
     return { playBefore }
+})();
+
+const checkForWin = (() => {
+    const checkWinCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ]
 })();
 
 
@@ -113,7 +117,7 @@ const changeBetweenPages = (() => {
         }
     }
 
-    const {playBefore} = addMarks;
+    const {playBefore} = gameBoard;
 
     function changePageBackwards() {
         if (!mainBoard.classList.contains('hidden')) {
