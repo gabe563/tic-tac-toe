@@ -28,6 +28,7 @@ const gameBoard = (() => {
     let board = ['', '', '', '', '', '', '', '', ''];
     const X_Mark = 'X';
     const O_Mark = 'O';
+    
     // let canPlay = false;
     let circTurn;
     const cells = document.querySelectorAll('[data-cell]');
@@ -37,19 +38,16 @@ const gameBoard = (() => {
 
     function playBefore() {
         board = ['', '', '', '', '', '', '', '', ''];
-        console.log(board)
         circTurn = false;
         cells.forEach((cell, i) => {
             cell.textContent = '';
             cell.addEventListener('click', (e) => {
-                console.log(circTurn)
                 const cellIndex = i;
-                console.log(cellIndex)
                 const currCell = e.target;
                 const currPlay = circTurn ? O_Mark : X_Mark;
                 if(board[cellIndex] === "") {
                     placeMarks(currCell, currPlay, cellIndex);
-                    swapTurn();
+                    changeTurns();
                     currentTurn();
                 }
             });
@@ -61,10 +59,12 @@ const gameBoard = (() => {
         board[index] = play;
         console.log(board)
         cell.textContent = play;
-        console.log(cell.textContent)
+        if(checkForWin(play)) {
+            console.log('winner')
+        }
     }
 
-    function swapTurn() {
+    function changeTurns() {
         circTurn = !circTurn;
     }
     
@@ -80,22 +80,36 @@ const gameBoard = (() => {
             player2Name.classList.remove('current');
         }
     }
+
+    const checkForWin = (play) => {
+        const checkWinCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        return checkWinCombinations.some(combination => {
+            return combination.every(i => {
+                return cells[i].textContent.includes(play);
+            })
+        })
+    };
+
+    // const finishGame = () => {
+    //     if (isDraw) {
+
+    //     } else {
+    //         if(circTurn ? :)
+    //     }
+    // }
+
     return { playBefore }
 })();
-
-const checkForWin = (() => {
-    const checkWinCombinations = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ]
-})();
-
 
 const changeBetweenPages = (() => {
     const optionsCont = document.querySelector('.options-cont');
