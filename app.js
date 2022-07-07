@@ -25,28 +25,34 @@ const Players = (name) => {
 }
     
 const gameBoard = (() => {
-    const board = ['', '', '', '', '', '', '', '', ''];
+    let board = ['', '', '', '', '', '', '', '', ''];
     const X_Mark = 'X';
     const O_Mark = 'O';
+    // let canPlay = false;
     let circTurn;
     const cells = document.querySelectorAll('[data-cell]');
     const restartBtn = document.getElementById('restartBtn');
 
-    playBefore();
+    playBefore()
 
     function playBefore() {
+        board = ['', '', '', '', '', '', '', '', ''];
+        console.log(board)
         circTurn = false;
         cells.forEach((cell, i) => {
             cell.textContent = '';
             cell.addEventListener('click', (e) => {
+                console.log(circTurn)
                 const cellIndex = i;
                 console.log(cellIndex)
                 const currCell = e.target;
                 const currPlay = circTurn ? O_Mark : X_Mark;
-                placeMarks(currCell, currPlay, cellIndex);
-                swapTurn();
-                currentTurn();
-            }, { once: true});
+                if(board[cellIndex] === "") {
+                    placeMarks(currCell, currPlay, cellIndex);
+                    swapTurn();
+                    currentTurn();
+                }
+            });
         }) 
         currentTurn();
     }
@@ -55,6 +61,7 @@ const gameBoard = (() => {
         board[index] = play;
         console.log(board)
         cell.textContent = play;
+        console.log(cell.textContent)
     }
 
     function swapTurn() {
@@ -108,7 +115,7 @@ const changeBetweenPages = (() => {
             getPlayerInput()
             player1Input.value = '';
             player2Input.value = '';
-            optionsCont.classList.add('fade')
+            optionsCont.classList.add('fade');
             optionsCont.addEventListener('animationend', () => {
                 optionsCont.classList.add('hidden');
                 mainBoard.classList.remove('hidden');
@@ -121,12 +128,12 @@ const changeBetweenPages = (() => {
 
     function changePageBackwards() {
         if (!mainBoard.classList.contains('hidden')) {
-            mainBoard.classList.add('fade')
+            mainBoard.classList.add('fade');
             mainBoard.addEventListener('animationend', () => {
+                playBefore()
                 optionsCont.classList.remove('hidden');
                 mainBoard.classList.add('hidden');
                 mainBoard.classList.remove('fade');
-                playBefore()
             })
         }
     }
