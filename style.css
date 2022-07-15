@@ -21,12 +21,33 @@ body {
     background-color: var(--st-color);
 }
 
+.board-cont {
+    display: flex;
+    flex-direction: column;
+}
+
 .hidden {
     display: none;
 }
 
 .fade {
-    animation: fade-out 0.5s forwards;
+    animation: fade-out 0.5s;
+}
+
+.longfade {
+    animation: fade-out 0.7s;
+}
+
+.fadein {
+    animation: fadeIn 0.5s;
+}
+
+.longfadein {
+    animation: fadeIn 0.7s;
+}
+
+.fadeIndisp {
+    animation: fadeInDisplay 0.5s;
 }
 
 .options-header {
@@ -46,11 +67,15 @@ body {
     right: 20px;
 }
 
-.git img {
+.git img, .git2 img {
     height: auto;
     width: 54px;
     filter: invert(80%);
     transition: all 0.2s ease;
+}
+
+.git2 {
+    position: static;
 }
 
 .players-cont {
@@ -92,6 +117,9 @@ input::placeholder {
 }
 
 .board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 20px;
 }
 
@@ -126,32 +154,42 @@ button:active, .git img:active {
     align-items: center;
     justify-content: center;
     height: 80px;
-    gap: 140px;
+    gap: 18px;
 }
 
 .playersScore .player {
     display: flex;
-    gap: 40px;
+    gap: 62px;
 }
 
-.playersScore .player p {
+.playersScore .player p{
     max-width: 180px;
     word-wrap: break-word;
-    font-size: 1.8rem;
 }
+
+#player1Score p, #player2Score {
+    font-size: 1.8rem;
+}   
 
 .player1Name, .player2Name {
     min-width: 180px;
-    font-size: 3rem !important;
+    font-size: 3rem;
 }
 
 .player1Name {
     text-align: right;
 }
 
+.draw-txt p{
+    font-size: 1.8rem;
+    min-width: 140px;
+    text-align: center;
+    margin-bottom: 64px;
+}
+
 .empty {
     font-family: var(--nd-font);
-    font-size: 4rem !important;
+    font-size: 4rem;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -197,6 +235,12 @@ button:active, .git img:active {
     cursor: default;
 }
 
+.cell p {
+    text-align: center;
+    min-width: 115px;
+    min-height: 115px;
+}
+
 .cell:nth-child(1), .cell:nth-child(3), .cell:nth-child(7), .cell:nth-child(9){
     border: none;
 }
@@ -232,7 +276,7 @@ button:active, .git img:active {
 }
 
 .current {
-   filter: drop-shadow(1px 3px 8px var(--nd-color))
+    filter: drop-shadow(1px 3px 8px var(--nd-color))
 }
 
 #restartBtn {
@@ -248,11 +292,34 @@ img[src*='restart'] {
 }
 
 @keyframes fade-out {
-    from { opacity: 100%; }
-    to { opacity: 0% }
-}
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}  
 
 @keyframes fadeIn {
     from { opacity: 0%; }
     to { opacity: 100%; }
+}
+
+@keyframes fadeInDisplay {
+    0% {
+        display: none;
+    }
+    1% {
+        display: block;
+        opacity: 0;
+        /* transform: scale(0); */
+    }
+    100% {
+        opacity: 1;
+        /* transform: scale(1); */
+    }
+}
+
+@keyframes glow{
+    100% {filter: drop-shadow(1px 3px 8px var(--nd-color))}
+}
+
+.glow {
+    animation: glow 0.3s ease forwards;
 }
