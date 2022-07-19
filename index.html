@@ -21,67 +21,79 @@
             </div>
         </div>
         <div class="players-cont">
-            <div class="player 1">
-                <input type="text" name="" id="" placeholder="Player 1" maxlength="15">
-                <p>X</p>
-            </div>
-            <div class="start-btn">
-                <button id="startBtn">Start</button>
-            </div>
-            <div class="player 2">
-                <input type="text" name="" id="" placeholder="Player 2" maxlength="15">
-                <p>O</p>
+            <div class="cpu-cont">
+                <button class="cpu">Computer</button>
+                <div class="play-cont">
+                    <div class="player 1">
+                        <input type="text" name="" id="" placeholder="Player 1" maxlength="15">
+                        <div>
+                            <p>X</p>
+                        </div>
+                    </div>
+                    <div class="start-btn">
+                        <button id="startBtn">Start</button>
+                    </div>
+                    <div class="player 2">
+                        <input type="text" name="" id="" placeholder="Player 2" maxlength="15">
+                        <div class="player2-cont">
+                            <p>O</p>
+                        </div>
+                        <div class="computer-cont hidden">
+                            <img src="assets/computer-icon.png" alt="computer" draggable="false">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
     </div>
     <div class="main-board hidden">
         <div class="foranimation-2">
-        <div class="board-header">
-            <div class="goBack-btn">
-                <button id="gobackBtn">Go back</button>
+            <div class="board-header">
+                <div class="goBack-btn">
+                    <button id="gobackBtn">Go back</button>
+                </div>
+                <div class="git2">
+                    <a href="https://github.com/FOXYSAMU" target="_blank">
+                        <img src="assets/github.png" alt="github" draggable="false">
+                    </a>
+                </div>
             </div>
-            <div class="git2">
-                <a href="https://github.com/FOXYSAMU" target="_blank">
-                    <img src="assets/github.png" alt="github" draggable="false">
-                </a>
-            </div>
-        </div>
-        <div class="board-cont">
-            <div class="playersScore">
-                <div class="player 1">
-                    <p class="player1Name">PlaceHolder1</p>
-                    <div id="player1Score" class="score">
-                        <p>0</p>
+            <div class="board-cont">
+                <div class="playersScore">
+                    <div class="player 1">
+                        <p class="player1Name">PlaceHolder1</p>
+                        <div id="player1Score" class="score">
+                            <p>0</p>
+                        </div>
+                    </div>
+                    <div class="draw-txt">
+                        <p class="draw-p"></p>
+                    </div>
+                    <div class="player 2">
+                        <div id="player2Score" class="score">
+                            <p>0</p>
+                        </div>
+                        <p class="player2Name">PlaceHolder2</p>
                     </div>
                 </div>
-                <div class="draw-txt">
-                    <p class="draw-p"></p>
-                </div>
-                <div class="player 2">
-                    <div id="player2Score" class="score">
-                        <p>0</p>
+                <div class="game-cont">
+                    <div class="game-board">
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
+                        <div class="cell" data-cell><div class="anim"><p></p></div></div>
                     </div>
-                    <p class="player2Name">PlaceHolder2</p>
+                    <div class="restart-btn">
+                        <button id="restartBtn"><img src="assets/restart-icon.png" alt="restart">Rounds</button>
+                    </div>
                 </div>
             </div>
-            <div class="game-cont">
-                <div class="game-board">
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                    <div class="cell" data-cell></div>
-                </div>
-                <div class="restart-btn">
-                    <button id="restartBtn"><img src="assets/restart-icon.png" alt="restart">Rounds</button>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
 </body>

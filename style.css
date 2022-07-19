@@ -58,6 +58,7 @@ body {
 
 .options-header h1 {
     word-spacing: 20px;
+    letter-spacing: 5px;
     font-size: 2.8rem;
 }
 
@@ -82,7 +83,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 68px;
     height: 500px;
 }
 
@@ -101,6 +101,7 @@ body {
 .players-cont .player {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .player input {
@@ -116,11 +117,17 @@ input::placeholder {
     text-align: center;
 }
 
+.selected {
+    background-color: var(--nd-color);
+    color: var(--rd-color);
+}
+
 .board-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
+    margin-bottom: 10px;
 }
 
 button {
@@ -206,7 +213,7 @@ button:active, .git img:active {
 .game-cont {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .game-board {
@@ -216,6 +223,10 @@ button:active, .git img:active {
     justify-content: center;
     width: 400px;
     height: 400px;
+}
+
+.glow {
+    animation: glow 0.3s ease forwards;
 }
 
 .cell {
@@ -235,10 +246,14 @@ button:active, .git img:active {
     cursor: default;
 }
 
+.cell .appear {
+    animation: appear 0.2s ease forwards;
+}
+
 .cell p {
     text-align: center;
-    min-width: 115px;
-    min-height: 115px;
+    min-width: 125px;
+    min-height: 125px;
 }
 
 .cell:nth-child(1), .cell:nth-child(3), .cell:nth-child(7), .cell:nth-child(9){
@@ -291,6 +306,31 @@ img[src*='restart'] {
     width: 24px;
 }
 
+.play-cont {
+    display: flex;
+    gap: 72px;
+}
+
+.start-btn {
+    align-self: center;
+}
+
+.player:nth-child(3) .computer-cont{
+    margin-top: 28px;
+}
+
+.cpu {
+    display: flex;
+    margin-left: auto;
+    margin-right: 8px;
+    margin-bottom: 20px;
+}
+
+.computer-cont img {
+    width: 105px;
+    filter: invert();
+}
+
 @keyframes fade-out {
     0% { opacity: 1; }
     100% { opacity: 0; }
@@ -316,10 +356,13 @@ img[src*='restart'] {
     }
 }
 
-@keyframes glow{
-    100% {filter: drop-shadow(1px 3px 8px var(--nd-color))}
+@keyframes appear{
+    0%{ opacity: 0; transform: scale(2); }
+    25%{ opacity: 0.25; transform: scale(1.5); }
+    50%{ opacity: 0.5; transform: scale(0.7); }
+    100%{ opacity: 1; transform: scale(1); }
 }
 
-.glow {
-    animation: glow 0.3s ease forwards;
+@keyframes glow{
+    100% { filter: drop-shadow(1px 3px 8px var(--nd-color)); }
 }
