@@ -174,7 +174,7 @@ button:active, .git img:active {
     word-wrap: break-word;
 }
 
-#player1Score p, #player2Score {
+#player1Score p, #player2Score p {
     font-size: 1.8rem;
 }   
 
@@ -321,7 +321,7 @@ img[src*='restart'] {
 
 .cpu {
     display: flex;
-    margin-left: auto;
+    justify-content: flex-end;
     margin-right: 8px;
     margin-bottom: 20px;
 }
@@ -365,4 +365,68 @@ img[src*='restart'] {
 
 @keyframes glow{
     100% { filter: drop-shadow(1px 3px 8px var(--nd-color)); }
+}
+
+@media (max-width: 670px) {
+    .options-header h1 {
+        font-size: 2rem;
+    }
+
+    .git img, .git2 img {
+        height: auto;
+        width: 40px;
+    }
+
+    .play-cont {
+        gap: 60px;
+    }
+
+    .cpu {
+        margin-right: 2px;
+    }
+
+    .players-cont p {
+        font-size: 6.5rem;
+    }
+
+    .player input {
+        width: 80px;
+        height: 28px;
+    }
+
+    button {
+        width: 80px;
+        font-size: 0.8rem;
+    }
+
+    .player1Name, .player2Name{
+        font-size: 2.5rem;
+    }
+
+    #player1Score p, #player2Score p {
+        font-size: 1.5rem;
+    }
+
+    .playersScore .player {
+        gap: 50px;
+    }
+
+    .draw-txt p {
+        font-size: 1rem;
+        min-width: 90px;
+    }
+
+    .game-cont {
+        margin-top: 25px;
+    }
+
+    .game-board {
+        width: 380px;
+        height: 380px;
+    }
+
+    .restart-btn {
+        margin-left: 0;
+        margin-top: 500px;
+    }
 }
