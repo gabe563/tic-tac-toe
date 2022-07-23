@@ -367,7 +367,7 @@ img[src*='restart'] {
     100% { filter: drop-shadow(1px 3px 8px var(--nd-color)); }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 550px) {
     .options-header h1 {
         font-size: 2rem;
     }

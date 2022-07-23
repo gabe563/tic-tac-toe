@@ -82,7 +82,7 @@ const changeBetweenPages = (() => {
     const startBtn = document.getElementById('startBtn');
     const gobackBtn = document.getElementById('gobackBtn');
 
-    const computerBtn = document.querySelector('.cpu');
+    const computerBtn = document.querySelector('.cpu button');
 
     let gameMode = null;
 
@@ -161,7 +161,7 @@ const gameBoard = (() => {
     const drawCont = document.querySelector('.draw-txt');
     const drawTxt = document.querySelector('.draw-p');
 
-    const computerBtn = document.querySelector('.cpu');
+    const computerBtn = document.querySelector('.cpu button');
     computerBtn.addEventListener('click', clearIfClicked);
 
     playBefore();
@@ -367,7 +367,7 @@ const gameBoard = (() => {
 })();
 
 const computer = (() => {
-    const computerBtn = document.querySelector('.cpu');
+    const computerBtn = document.querySelector('.cpu button');
     const computerIcon = document.querySelector('.computer-cont');
     const computerImg = document.querySelector('.computer-cont img');
 
