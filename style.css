@@ -447,4 +447,8 @@ img[src*='restart'] {
     .player1Name, .player2Name {
         min-width: 64px;
     }
+
+    .computer-cont img {
+        width: 80px;
+    }
 }
