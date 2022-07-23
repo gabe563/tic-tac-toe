@@ -421,12 +421,30 @@ img[src*='restart'] {
     }
 
     .game-board {
-        width: 380px;
-        height: 380px;
+        width: 310px;
+        height: 310px;
     }
 
     .restart-btn {
         margin-left: 0;
         margin-top: 500px;
+    }
+
+    .game-board {
+        grid-template-columns: repeat(3, 110px);
+        grid-template-rows: repeat(3, 110px);
+    }
+
+    .cell {
+        font-size: 4.8rem;
+    }
+
+    .cell p {
+        min-width: 94px;
+        min-height: 94px;
+    }
+
+    .player1Name, .player2Name {
+        min-width: 64px;
     }
 }
