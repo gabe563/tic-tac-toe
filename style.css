@@ -440,8 +440,8 @@ img[src*='restart'] {
     }
 
     .cell p {
-        min-width: 94px;
-        min-height: 94px;
+        min-width: 95px;
+        min-height: 95px;
     }
 
     .player1Name, .player2Name {
