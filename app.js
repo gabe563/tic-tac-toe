@@ -1,3 +1,4 @@
+// Get and store each value of the players inputs
 const Players = (name) => {
     const player1Name = document.querySelector('.player1Name');
     const player2Name = document.querySelector('.player2Name');
@@ -25,6 +26,7 @@ const Players = (name) => {
     return { setNames, getName }
 }
 
+// Add, reset and store scores values
 const gameScore = (() => {
     let playerScores = [
         {
@@ -45,11 +47,9 @@ const gameScore = (() => {
     function addUpScore(playerScore) {
         if(!playerScore) {
             ++playerScores[0].score;
-            console.log(playerScores)
             player1Score.textContent = playerScores[0].score;
         } else if(playerScore) {
             ++playerScores[1].score;
-            console.log(playerScores)
             player2Score.textContent = playerScores[1].score;
         }
     };
@@ -67,6 +67,7 @@ const gameScore = (() => {
     return { addUpScore, restartRounds }
 })();
     
+// Handle animations between pages
 const changeBetweenPages = (() => {
     const optionsCont = document.querySelector('.options-cont');
     const mainBoard = document.querySelector('.main-board');
@@ -125,12 +126,14 @@ const changeBetweenPages = (() => {
         el.classList.remove('fade');
     };
     
+    // Get players input values
     function getPlayerInput() {
         const player1 = Players(player1Input.value);
         const player2 = Players(player2Input.value);
         player1.setNames(player2);
     };
 
+    // Check current game mode selected
     function checkIfCpu() {
         if(computerBtn.classList.contains('selected')) {
             gameMode = 'vsComputer';
@@ -142,6 +145,225 @@ const changeBetweenPages = (() => {
     const getGameMode = () => { return gameMode }
 
     return { getGameMode }
+})();
+
+// Manage all the functionality of the game
+const gameBoard = (() => {
+    let board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    const X_Mark = 'X';
+    const O_Mark = 'O';
+    let circTurn;
+    let canPlay = false;
+    let currPlay;
+    const cells = document.querySelectorAll('.cell p');
+    const animCells = document.querySelectorAll('.anim');
+
+    const drawCont = document.querySelector('.draw-txt');
+    const drawTxt = document.querySelector('.draw-p');
+
+    const computerBtn = document.querySelector('.cpu');
+    computerBtn.addEventListener('click', clearIfClicked);
+
+    playBefore();
+
+    const { getGameMode } = changeBetweenPages;
+    
+    function playBefore() {
+        board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        circTurn = false;
+        canPlay = true;
+        cells.forEach((cell, i) => {
+            cell.textContent = '';
+            cell.addEventListener('click', cellClick);
+            function cellClick() {
+                const cellIndex = i;
+                currPlay = circTurn ? O_Mark : X_Mark;
+                if(typeof board[cellIndex] == 'number' && canPlay) {
+                    if(getGameMode() === 'vsPlayer') {
+                        placeMarks(currPlay, cellIndex);
+                    }
+                    if(getGameMode() === 'vsComputer') {
+                        placeMarks(currPlay, cellIndex);
+                        currPlay = circTurn ? O_Mark : X_Mark;
+                        canPlay = false;
+                        if(canPlay === false && circTurn) {
+                            setTimeout(() => {
+                                placeMarks(currPlay, computer.getBestSpot(board));
+                            }, 300);
+                        }
+                    } 
+                }
+            };
+        }); 
+        currentTurn();
+    };
+
+    function placeMarks(play, index) {
+        board[index] = play;
+        animCells.forEach((animCell, i) => {
+            if(index === i) {
+                animCell.classList.add('appear');
+            }
+        });
+        cells[index].textContent = play;
+        if(getGameMode() === 'vsPlayer') {
+            if(checkForWin(board, currPlay)) {
+                canPlay = false;
+                finishGame(false);
+            } else if(isDraw()) {
+                canPlay = false;
+                finishGame(true);
+            } else {
+                changeTurns();
+                currentTurn();
+            }
+        } else if(getGameMode() === 'vsComputer'){
+            if(checkForWin(board, currPlay)) {
+                if(!circTurn) {
+                    canPlay = false
+                }
+                finishGame(false);
+            } else if(isDraw()) {
+                if(!circTurn) {
+                    canPlay = false
+                }
+                finishGame(true);
+            } else {
+                if(circTurn) {
+                    canPlay = true;
+                }
+                changeTurns();
+                currentTurn();
+            }
+        }
+    };
+
+    function changeTurns() {
+        circTurn = !circTurn;
+    };
+    
+    function currentTurn() {
+        const player1Name = document.querySelector('.player1Name');
+        const player2Name = document.querySelector('.player2Name');
+       
+        if(circTurn) {
+            addGlow(player2Name);
+            removeGlow(player1Name);
+        } else {
+            addGlow(player1Name);
+            removeGlow(player2Name);
+        }
+    };
+
+    function emptyIndex(){
+	    return board.filter(s => typeof s == 'number');
+    };
+
+    const checkForWin = (newBoard, play) => {
+        const checkWinCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        let plays = newBoard.reduce((a, e, i) =>
+		(e === play) ? a.concat(i) : a, []);
+    
+	    for (let [index, combination] of checkWinCombinations.entries()) {
+            if (combination.every(elem => plays.indexOf(elem) > -1)) {
+                return true;
+            }
+	    }
+    };
+   
+    function isDraw() {
+        return emptyIndex().length === 0;
+    };
+
+    const { addUpScore } = gameScore;
+
+    const finishGame = (Draw) => {
+        if(Draw) {
+            drawAnimation();
+            cellClear();
+        } else {    
+            if(circTurn)  {
+                cellClear();
+                addUpScore(circTurn);
+                if(getGameMode() === 'vsComputer') {
+                    changeTurns();
+                    currentTurn();
+                }
+            } 
+            else {
+                cellClear();
+                addUpScore(circTurn);
+            }
+        }
+    };
+
+    function drawAnimation() {
+        drawCont.classList.add('longfadein');
+        drawTxt.textContent = "It's a draw!";
+        drawCont.addEventListener('animationend', (e) => {
+            e.stopPropagation();
+            drawCont.classList.remove('longfadein');
+            drawTxt.classList.add('longfade')
+            drawTxt.addEventListener('animationend', (e) => {
+                e.stopPropagation();
+                drawTxt.classList.remove('longfade');
+                drawTxt.textContent = '';
+            });
+        });
+    };
+
+    function cellClear() {
+        board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        cells.forEach(cell => {
+            cell.classList.add('fade');
+            cell.addEventListener('animationend', (e) => {
+                e.stopPropagation();
+                cell.textContent = '';
+                if(getGameMode() === 'vsComputer' && circTurn) {
+                    canPlay = false;
+                } else {
+                    canPlay = true;
+                }
+                cell.classList.remove('fade');
+                animCells.forEach(animCell => {
+                    animCell.classList.remove('appear');
+                });
+            });
+        });
+    };
+
+    function addGlow(el) {
+        el.classList.add('glow');
+    };
+
+    function removeGlow(el) {
+        el.classList.remove('glow');
+    };
+
+    function clearIfClicked() {
+        circTurn = false;
+        gameScore.restartRounds();
+        board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        cells.forEach(cell => {
+            cell.textContent = '';
+        });
+        animCells.forEach(animCell => {
+            animCell.classList.remove('appear');
+        });
+        currentTurn();
+    };
+
+    return { checkForWin, emptyIndex }    
 })();
 
 const computer = (() => {
@@ -172,9 +394,8 @@ const computer = (() => {
                     e.stopPropagation();
                     computerImg.classList.remove('fadeIndisp');
                 });
-            })
-        } 
-        else {
+            });
+        } else {
             computerIcon.classList.add('fade');
             computerIcon.addEventListener('animationend', (e) => {
                 e.stopPropagation();
@@ -192,206 +413,76 @@ const computer = (() => {
 
     const getRobotMoveIndex = gameBoard => {
         let possibleMoves = []; 
-        for(let i = 0; i < gameBoard.length; i++)
-        {
-            if(gameBoard[i] === "")
-            {
+        for(let i = 0; i < gameBoard.length; i++) {
+            if(typeof gameBoard[i] == 'number') {
                 possibleMoves.push(i);
             }
         }
         let randomIndex = Math.floor(Math.random() * possibleMoves.length);
         return possibleMoves[randomIndex];
-    }
+    };
 
-    return { getRobotMoveIndex }
-})();
+    const getBestSpot = (board) => {
+        return MiniMax(board, 'O').index
+    };
 
+    const MiniMax = (newBoard, player) => {
+        let availSpots = gameBoard.emptyIndex();
 
-const gameBoard = (() => {
-    let board = ['', '', '', '', '', '', '', '', ''];
-    const X_Mark = 'X';
-    const O_Mark = 'O';
-    let circTurn;
-    let canPlay = false;
+        let checkWin = gameBoard.checkForWin;
 
-    const cells = document.querySelectorAll('.cell p');
-    const animCells = document.querySelectorAll('.anim');
+        if(checkWin(newBoard, 'X')) {
+            return { score: -10 };   
+        } else if(checkWin(newBoard, 'O')) {
+            return { score: 10 };
+        } else if(availSpots.length === 0) {
+            return { score: 0 };
+        }
 
-    const drawCont = document.querySelector('.draw-txt');
-    const drawTxt = document.querySelector('.draw-p');
+        let moves = [];
+        for(let i = 0; i < availSpots.length; i++) {
+            let move = {};
 
-    const computerBtn = document.querySelector('.cpu');
-    computerBtn.addEventListener('click', clearIfClicked);
+            move.index = newBoard[availSpots[i]];
 
-    playBefore();
+            newBoard[availSpots[i]] = player;
+            
+            if(player == 'O') {
+                let result = MiniMax(newBoard, 'X');
+                move.score = result.score;
+            } else {
+                let result = MiniMax(newBoard, 'O');
+                move.score = result.score;
+            }
 
-    const { getGameMode } = changeBetweenPages;
+            newBoard[availSpots[i]] = move.index;
 
-    function playBefore() {
-        board = ['', '', '', '', '', '', '', '', ''];
-        circTurn = false;
-        canPlay = true;
-        cells.forEach((cell, i) => {
-            cell.textContent = '';
-            cell.addEventListener('click', cellClick);
-            function cellClick() {
-                const cellIndex = i;
-                let currPlay = circTurn ? O_Mark : X_Mark;
-                if(board[cellIndex] === "" && canPlay) {
-                    placeMarks(currPlay, cellIndex);
-                    if(checkForWin(currPlay)) {
-                        canPlay = false;
-                        finishGame(false);
-                    } else if(isDraw()) {
-                        canPlay = false;
-                        finishGame(true);
-                    } else {
-                        changeTurns();
-                        currentTurn();
-                        if(getGameMode() === 'vsComputer') {
-                            currPlay = circTurn ? O_Mark : X_Mark;
-                            canPlay = false;
-                            setTimeout(() => {
-                                placeMarks(currPlay,  computer.getRobotMoveIndex(board));
-                                if(checkForWin(currPlay)) {
-                                    finishGame(false);
-                                }
-                                else if(isDraw()) {
-                                    finishGame(true);
-                                } else {
-                                    canPlay = true;
-                                    changeTurns();
-                                    currentTurn();
-                                }
-                            }, 1000);
-                        } 
-                    }
+            moves.push(move);
+        }
+
+        let bestMove;
+        if(player === 'O') {
+            let bestScore = -10000;
+            for(let i = 0; i < moves.length; i++) {
+                if(moves[i].score > bestScore) {
+                    bestScore = moves[i].score;
+                    bestMove = i;
                 }
-            };
-        }); 
-        currentTurn();
-    };
-
-    function placeMarks(play, index) {
-        board[index] = play;
-        animCells.forEach((animCell, i) => {
-            if(index === i) {
-                animCell.classList.add('appear');
             }
-        });
-        cells[index].textContent = play;
-    }; 
-
-    function changeTurns() {
-        circTurn = !circTurn;
-    };
-    
-    function currentTurn() {
-        const player1Name = document.querySelector('.player1Name');
-        const player2Name = document.querySelector('.player2Name');
-       
-        if(circTurn) {
-            addGlow(player2Name);
-            removeGlow(player1Name);
         } else {
-            addGlow(player1Name);
-            removeGlow(player2Name);
-        }
-    };
-
-    const checkForWin = (play) => {
-        const checkWinCombinations = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-
-        return checkWinCombinations.some(combination => {
-            return combination.every(i => {
-                return board[i].includes(play);
-            });
-        });
-    };
-
-    function isDraw() {
-        return board.every(item => {
-            return item.includes(X_Mark) || item.includes(O_Mark)
-        });
-    };
-
-    const { addUpScore } = gameScore;
-
-    const finishGame = (Draw) => {
-        if(Draw) {
-            drawAnimation();
-            cellClear();
-        } else {    
-            if(circTurn)  {
-                cellClear();
-                addUpScore(circTurn);
-            } 
-            else {
-                cellClear();
-                addUpScore(circTurn);
+            let bestScore = 10000;
+            for(let i = 0; i < moves.length; i++) {
+                if(moves[i].score < bestScore) {
+                    bestScore = moves[i].score;
+                    bestMove = i;
+                }
             }
         }
+
+        return moves[bestMove];
     };
 
-    function drawAnimation() {
-        drawCont.classList.add('longfadein');
-        drawTxt.textContent = "It's a draw!";
-        drawCont.addEventListener('animationend', (e) => {
-            e.stopPropagation();
-            drawCont.classList.remove('longfadein');
-            drawTxt.classList.add('longfade')
-            drawTxt.addEventListener('animationend', (e) => {
-                e.stopPropagation();
-                drawTxt.classList.remove('longfade');
-                drawTxt.textContent = '';
-            });
-        });
-    };
-
-    function cellClear() {
-        board = ['', '', '', '', '', '', '', '', ''];
-        cells.forEach(cell => {
-            cell.classList.add('fade');
-            cell.addEventListener('animationend', (e) => {
-                e.stopPropagation();
-                cell.textContent = '';
-                canPlay = true;
-                cell.classList.remove('fade');
-                animCells.forEach(animCell => {
-                    animCell.classList.remove('appear');
-                });
-            });
-        });
-    };
-
-    function addGlow(el) {
-        el.classList.add('glow');
-    };
-
-    function removeGlow(el) {
-        el.classList.remove('glow');
-    };
-
-    function clearIfClicked() {
-        gameScore.restartRounds();
-        board = ['', '', '', '', '', '', '', '', ''];
-        cells.forEach(cell => {
-            cell.textContent = '';
-        });
-        animCells.forEach(animCell => {
-            animCell.classList.remove('appear');
-        });
-    };
-    
+    return { getBestSpot, getRobotMoveIndex }
 })();
 
 
